@@ -1,0 +1,101 @@
+<div style="display: contents">
+	<!--[--><!--[--><!----><!---->
+	<div class="s-PVzgibwQH96a">
+		<svg width="928" height="680" viewBox="-464,-340,928,680" style="max-width: 100%; height: auto">
+			<g class="links" stroke="#999" stroke-opacity="0.6">
+				<line
+					stroke-width="1.7320508075688772"
+					x1="40.95047091350749"
+					y1="6.822574762888287"
+					x2="-32.35593824067328"
+					y2="-55.255806771048974"
+				></line>
+				<line
+					stroke-width="1.4142135623730951"
+					x1="-32.35593824067328"
+					y1="-55.255806771048974"
+					x2="65.85997961826122"
+					y2="100.06890467328301"
+				></line>
+			</g>
+			<g class="nodes" stroke="#fff" stroke-width="1.5">
+				<g
+					class="node"
+					transform="translate(40.95047091350749,6.822574762888287)"
+					style="overflow: visible"
+				>
+					<foreignObject width="100" height="100" transform="translate(-50,-50)">
+						<p
+							style="
+								background-color: blue;
+								border-radius: 10px;
+								padding: 0.5rem;
+								height: 100%;
+								position: relative; /*! top: -50%; */
+								z-index: 100000000; /*! left: -50%; */
+							"
+						>
+							hello there
+						</p>
+					</foreignObject>
+					<circle r="14" fill="#5B85AA"></circle>
+					<text stroke="red" dy="10">A</text>
+				</g>
+				<g class="node" transform="translate(-32.35593824067328,-55.255806771048974)">
+					<circle r="8" fill="#5B85AA"></circle>
+					<text dy="20" stroke="red">B</text>
+				</g>
+				<g class="node" transform="translate(65.85997961826122,100.06890467328301)">
+					<circle r="8" fill="#F46036"></circle>
+					<text dy="20" stroke="red">C</text>
+				</g>
+			</g>
+		</svg>
+	</div>
+	<!----><!----><!----><!----><!--]-->
+	<!--[!-->
+	<div
+		id="svelte-announcer"
+		aria-live="assertive"
+		aria-atomic="true"
+		style="
+			position: absolute;
+			left: 0;
+			top: 0;
+			clip: rect(0 0 0 0);
+			clip-path: inset(50%);
+			overflow: hidden;
+			white-space: nowrap;
+			width: 1px;
+			height: 1px;
+		"
+	>
+		<!---->
+	</div>
+	<!--]--><!--]-->
+
+	<script>
+		{
+			__sveltekit_dev = {
+				base: new URL('.', location).pathname.slice(0, -1),
+				env: {}
+			};
+
+			const element = document.currentScript.parentElement;
+
+			Promise.all([
+				import(
+					'/node_modules/.deno/@sveltejs+kit@2.17.2/node_modules/@sveltejs/kit/src/runtime/client/entry.js'
+				),
+				import('/@fs/home/stef/projects/knowledge-graph/.svelte-kit/generated/client/app.js')
+			]).then(([kit, app]) => {
+				kit.start(app, element, {
+					node_ids: [0, 2],
+					data: [null, null],
+					form: null,
+					error: null
+				});
+			});
+		}
+	</script>
+</div>
