@@ -1,26 +1,19 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import * as d3 from 'd3';
-	import { onMount, mount, hydrate } from 'svelte';
+	import { onMount } from 'svelte';
 	import Card from '$lib/Card.svelte';
 	import mountToNode from '$lib/node_builder';
 
-	import type { Node, Link, GraphData } from '$lib/chart_types';
-
-	let { data } = $props();
-
+	let { dataprop } = $props();
+	let data = $derived(JSON.parse(JSON.stringify(dataprop)));
 	let chartContainer: any = $state();
 	let simulation: any = $state();
 	let link: any;
 	let node: any;
-	const line_distance = 500;
+	const line_distance = 200;
 	const line_size = 4;
-	const node_size = 8;
-	const node_color = '#F46036';
 
 	function updateGraph() {
-		// Update nodes and links
 		simulation.nodes(data.nodes);
 		simulation.force('link').links(data.links);
 
@@ -45,37 +38,27 @@
 			.attr('width', 100)
 			.attr('height', 100)
 			.attr('id', (d: any) => d.id)
+			.each((d: any) => mountToNode(Card, d.id, { id: d.id }))
 			.call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
-
-		// Add circles to the node groups
-		node
-			.selectAll('circle') // Select existing circles (if any)
-			.data((d: any) => [d]) // One circle per group
-			.join('circle')
-			.attr('r', node_size)
-			.attr('fill', node_color)
-			.each((d: any) => mountToNode(Card, d.id, { id: d.id }));
-
 		// Restart simulation
 		simulation.alpha(1).restart();
 	}
 
 	onMount(() => {
-		const width = 928;
-		const height = 680;
-
 		// Create initial SVG container
 		const svg = d3
 			.select(chartContainer)
 			.append('svg')
-			.attr('width', width)
-			.attr('height', height)
-			.attr('viewBox', [-width / 2, -height / 2, width, height])
+			.attr('width', '100%')
+			.attr('height', '100%')
+			.attr('viewBox', `-${1000 / 2} -${1000 / 2} ${1500 / 2} ${1500 / 2}`)
+			.attr('preserveAspectRatio', 'xMidYMid meet') // Centers content
 			.attr('style', 'max-width: 100%; height: auto;');
 
 		// Create groups for links and nodes
-		svg.append('g').attr('class', 'links').attr('stroke', '#999').attr('stroke-opacity', 0.6);
-		svg.append('g').attr('class', 'nodes').attr('stroke', '#fff').attr('stroke-width', 1.5);
+		let vp = svg.append('g');
+		vp.append('g').attr('class', 'links').attr('stroke', '#999').attr('stroke-opacity', 0.6);
+		vp.append('g').attr('class', 'nodes').attr('stroke', '#fff').attr('stroke-width', 1.5);
 
 		// Initialize simulation
 		simulation = d3
@@ -87,9 +70,10 @@
 					.id((d: any) => d.id)
 					.distance(line_distance)
 			)
-			.force('charge', d3.forceManyBody())
-			.force('x', d3.forceX())
-			.force('y', d3.forceY())
+			.force('charge', d3.forceManyBody().strength(-10000))
+			.force('x', d3.forceX().strength(0.5))
+			.force('y', d3.forceY().strength(0.5))
+
 			.on('tick', () => {
 				// Update positions on each tick
 				link
@@ -103,9 +87,17 @@
 			});
 
 		if (data) {
+			initZoom();
 			updateGraph(); // Initial graph render with labels on mount if data is available
 		}
 	});
+
+	function handleZoom(event: any) {
+		d3.select('svg g').attr('transform', event.transform);
+	}
+	function initZoom() {
+		d3.select('svg').call(d3.zoom().on('zoom', handleZoom));
+	}
 
 	// Drag event handlers
 	function dragstarted(event: any) {
@@ -113,7 +105,6 @@
 		event.subject.fx = event.subject.x;
 		event.subject.fy = event.subject.y;
 	}
-
 	function dragged(event: any) {
 		event.subject.fx = event.x;
 		event.subject.fy = event.y;
@@ -125,8 +116,7 @@
 		event.subject.fy = null;
 	}
 
-	// Reactive block to update graph when data changes
-	run(() => {
+	$effect(() => {
 		if (simulation && data) {
 			updateGraph();
 		}
@@ -139,5 +129,8 @@
 	div {
 		display: flex;
 		justify-content: center;
+		position: fixed;
+		width: 100%;
+		height: 90vh; /* Viewport height */
 	}
 </style>

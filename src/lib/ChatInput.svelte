@@ -1,15 +1,20 @@
 <script lang="ts">
+	import type { Node } from './chart_types';
+
 	let inputValue = $state('');
+	let count = $state(0);
 
 	interface Props {
 		placeholder?: string;
+		nodes?: Node[];
 	}
 
-	let { placeholder = 'Type a message...' }: Props = $props();
-
+	let { placeholder = 'Type a message...', nodes = $bindable() }: Props = $props();
 	function handleSend() {
+		count++;
 		if (inputValue.trim()) {
 			inputValue = '';
+			nodes?.push({ id: count.toString(), content: inputValue });
 		}
 	}
 </script>
