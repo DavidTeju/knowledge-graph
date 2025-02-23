@@ -13,8 +13,8 @@
 	function handleSend() {
 		count++;
 		if (inputValue.trim()) {
-			inputValue = '';
 			nodes?.push({ id: count.toString(), content: inputValue });
+			inputValue = '';
 		}
 	}
 </script>

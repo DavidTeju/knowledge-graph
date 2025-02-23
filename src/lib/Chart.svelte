@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import Card from '$lib/Card.svelte';
 	import mountToNode from '$lib/node_builder';
-	import { style } from 'd3';
 
 	let { dataprop } = $props();
 	let data = $derived(JSON.parse(JSON.stringify(dataprop)));
@@ -42,7 +41,7 @@
 			.attr('width', 100)
 			.attr('height', 100)
 			.attr('id', (d: any) => d.id)
-			.each((d: any) => mountToNode(Card, d.id, { id: d.id, size: card_size }));
+			.each((d: any) => mountToNode(Card, d.id, { id: d.id, size: card_size, content: d.content }));
 
 		// Restart simulation
 		simulation.alpha(1).restart();
@@ -55,7 +54,10 @@
 			.append('svg')
 			.attr('width', '100%')
 			.attr('height', '100%')
-			.attr('viewBox', `-${window.screen.height / 2} -${window.screen.width / 2} ${window.screen.height} ${window.screen.width}`)
+			.attr(
+				'viewBox',
+				`-${window.screen.height / 2} -${window.screen.width / 2} ${window.screen.height} ${window.screen.width}`
+			)
 			.attr('preserveAspectRatio', 'xMidYMid meet') // Centers content
 			.attr('style', 'max-width: 100%; height: auto;');
 
@@ -67,7 +69,13 @@
 		// Initialize simulation
 		simulation = d3
 			.forceSimulation()
-			.force('link', d3.forceLink().id((d) => d.id).distance(line_distance))
+			.force(
+				'link',
+				d3
+					.forceLink()
+					.id((d: any) => d.id)
+					.distance(line_distance)
+			)
 			.force('charge', d3.forceManyBody().strength(-10_000))
 			.force('collide', d3.forceCollide(card_size))
 			.force('x', d3.forceX().strength(0.3))
@@ -89,7 +97,7 @@
 			updateGraph(); // Initial graph render with labels on mount if data is available
 		}
 	});
-	let myZoom = d3.zoom().scaleExtent([1.8, 4]).on('zoom', handleZoom);
+	let myZoom = d3.zoom().scaleExtent([0.5, 4]).on('zoom', handleZoom);
 
 	function dragstarted(event: any) {
 		if (!event.active) simulation.alphaTarget(0.3).restart();
@@ -125,11 +133,11 @@
 <div bind:this={chartContainer}></div>
 
 <style>
-    div {
-        display: flex;
-        justify-content: center;
-        position: fixed;
-        width: 100%;
-        height: 90vh; /* Viewport height */
-    }
+	div {
+		display: flex;
+		justify-content: center;
+		position: fixed;
+		width: 100%;
+		height: 90vh; /* Viewport height */
+	}
 </style>
