@@ -17,7 +17,9 @@
 
 <!-- <main class="px-40 py-8"> -->
 <main>
-	<PromptInput />
+	{#if !graphSerialized}
+		<PromptInput />
+	{/if}
 	<!-- <form method="POST" action="?/fetchData"> -->
 	<!-- 	<input -->
 	<!-- 		type="text" -->

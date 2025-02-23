@@ -1,28 +1,8 @@
 <script lang="ts">
 	import { Dialog, Separator } from 'bits-ui';
-	let count = $state(0);
-
-	let inputValue = $state('');
 	let dialogOpen = $state(true);
 
 	let placeholder = 'Type a message...';
-
-	function handleSend() {
-		count++;
-		if (inputValue.trim()) {
-			console.log(inputValue);
-			inputValue = '';
-			// nodes?.push({ id: count.toString(), content: inputValue });
-		}
-	}
-	function handleKeyDown(e: any) {
-		if (e.key === 'Enter' && !e.shiftKey) {
-			e.preventDefault();
-			handleSend();
-			dialogOpen = false;
-		}
-		// Shift+Enter will naturally create new line
-	}
 </script>
 
 <Dialog.Root bind:open={dialogOpen}>
