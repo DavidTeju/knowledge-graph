@@ -1,14 +1,12 @@
 export interface Node {
 	id: string;
-	size: number;
-	color: string;
+	content: string;
 }
 
 export interface Link {
 	source: string;
 	target: string;
-	size: number;
-	distance: number;
+	relation: string;
 }
 
 export interface GraphData {

@@ -7,11 +7,13 @@
 	width="100"
 	height="100"
 	transform="translate(-50,-50)"
-	style="background-color: rgb(160, 193, 185); border-radius: 1rem; padding: 0.5rem;"
+	class="place-content-between rounded-2xl bg-teal-500 p-2"
 	><div class="card">
-		<text>{id}</text>
-		<button onclick={() => count++}>
-			clicks: {count}
+		<button
+			class="rounded bg-blue-500 p-5 font-bold text-white hover:bg-blue-700"
+			onclick={() => count++}
+		>
+			{id}: {count}
 		</button>
 	</div></foreignObject
 >

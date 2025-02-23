@@ -1,19 +1,22 @@
 <script lang="ts">
 	import Chart from '$lib/Chart.svelte';
-	import type { Node, Link, GraphData } from '$lib/chart_types';
+	import ChatInput from '$lib/ChatInput.svelte';
+	import type { GraphData } from '$lib/chart_types';
 
-	let nodes = [
-		{ id: 'A', size: 14, color: '#5B85AA' },
-		{ id: 'B', size: 8, color: '#5B85AA' },
-		{ id: 'C', size: 8, color: '#F46036' }
-	];
-	let links = [
-		{ source: 'A', target: 'B', distance: 500, size: 3, relation: 'color' },
-		{ source: 'B', target: 'C', distance: 500, size: 2, relation: 'size' }
-	];
-	let data = { nodes: nodes, links: links };
+	let data: GraphData = {
+		nodes: [
+			{ id: 'A', content: 'I want to know a fun fact about cats' },
+			{ id: 'B', content: 'there are a lot of cats in rome' },
+			{ id: 'C', content: 'cesaer was a roman monarch' }
+		],
+		links: [
+			{ source: 'A', target: 'B', relation: 'cats' },
+			{ source: 'B', target: 'C', relation: 'rome' }
+		]
+	};
 </script>
 
 <Chart {data} />
+<ChatInput />
 
 <!-- <text x="5" y="30" fill="none" stroke="red" font-size="35">I love SVG!</text> -->

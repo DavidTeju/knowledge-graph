@@ -14,6 +14,10 @@
 	let simulation: any = $state();
 	let link: any;
 	let node: any;
+	const line_distance = 500;
+	const line_size = 4;
+	const node_size = 8;
+	const node_color = '#F46036';
 
 	function updateGraph() {
 		// Update nodes and links
@@ -28,7 +32,7 @@
 			.selectAll('line')
 			.data(data.links)
 			.join('line')
-			.attr('stroke-width', (d: any) => Math.sqrt(d.size));
+			.attr('stroke-width', Math.sqrt(line_size));
 		// Update node elements (grouping circle and label)
 		node = d3
 			.select(chartContainer)
@@ -48,8 +52,8 @@
 			.selectAll('circle') // Select existing circles (if any)
 			.data((d: any) => [d]) // One circle per group
 			.join('circle')
-			.attr('r', (d: any) => d.size)
-			.attr('fill', (d: any) => d.color)
+			.attr('r', node_size)
+			.attr('fill', node_color)
 			.each((d: any) => mountToNode(Card, d.id, { id: d.id }));
 
 		// Restart simulation
@@ -81,7 +85,7 @@
 				d3
 					.forceLink()
 					.id((d: any) => d.id)
-					.distance((d: any) => d.distance)
+					.distance(line_distance)
 			)
 			.force('charge', d3.forceManyBody())
 			.force('x', d3.forceX())
