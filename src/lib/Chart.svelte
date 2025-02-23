@@ -39,7 +39,7 @@
 			.attr('height', 100)
 			.attr('id', (d: any) => d.id)
 			.each((d: any) => mountToNode(Card, d.id, { id: d.id }));
-		// .call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
+
 		// Restart simulation
 		simulation.alpha(1).restart();
 	}
@@ -51,10 +51,7 @@
 			.append('svg')
 			.attr('width', '100%')
 			.attr('height', '100%')
-			.attr(
-				'viewBox',
-				`-${window.screen.height / 2} -${window.screen.width / 2} ${window.screen.height} ${window.screen.width}`
-			)
+			.attr('viewBox', `-${window.screen.height / 2} -${window.screen.width / 2} ${window.screen.height} ${window.screen.width}`)
 			.attr('preserveAspectRatio', 'xMidYMid meet') // Centers content
 			.attr('style', 'max-width: 100%; height: auto;');
 
@@ -66,17 +63,10 @@
 		// Initialize simulation
 		simulation = d3
 			.forceSimulation()
-			.force(
-				'link',
-				d3
-					.forceLink()
-					.id((d: any) => d.id)
-					.distance(line_distance)
-			)
-			.force('charge', d3.forceManyBody().strength(-10000))
-			.force('x', d3.forceX().strength(0.5))
-			.force('y', d3.forceY().strength(0.5))
-
+			.force('link', d3.forceLink().id((d) => d.id).distance(line_distance))
+			.force('charge', d3.forceManyBody().strength(-10_000))
+			.force('x', d3.forceX().strength(0.3))
+			.force('y', d3.forceY().strength(0.3))
 			.on('tick', () => {
 				// Update positions on each tick
 				link
