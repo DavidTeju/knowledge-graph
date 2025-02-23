@@ -31,7 +31,7 @@
 			class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/60"
 		/>
 		<Dialog.Content
-			class="rounded-card-lg shadow-popover <!--  Soft gray background --> data-[state=open]:animate-in
+			class="rounded-card-lg shadow-popover data-[state=open]:animate-in
 			data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] border bg-gray-50 p-5 outline-hidden sm:max-w-[490px] md:w-full"
 		>
 			<Dialog.Title
@@ -70,8 +70,6 @@
 					</form>
 				</div>
 			</div>
-			<!-- <div class="flex w-full justify-end"> -->
-			<!-- </div> -->
 			<Dialog.Close
 				class="<!-- Consistent  focus rings --> absolute top-5
 				right-5 rounded-md focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-amber-50 focus-visible:outline-hidden active:scale-[0.98]"

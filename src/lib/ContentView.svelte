@@ -1,16 +1,19 @@
 <script lang="ts">
 	import { Dialog, Separator } from 'bits-ui';
-	let { content } = $props();
+	let { id, content } = $props();
 </script>
 
 <Dialog.Root>
 	<Dialog.Trigger
-		class="rounded-input  shadow-mini inline-flex
-		h-full w-full items-center justify-center bg-amber-200
-		text-[15px] font-semibold  text-teal-700 transition-colors hover:bg-amber-200 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 focus-visible:outline-hidden active:scale-[0.98]"
+		class="h-11/12
+      w-11/12
+    items-center
+		  rounded-md 
+      p-5
+		 font-semibold  text-teal-700 transition-colors focus-visible:ring-2 focus-visible:ring-teal-300 focus-visible:ring-offset-2 focus-visible:ring-offset-amber-50 focus-visible:outline-hidden active:scale-[0.98]"
 	>
 		<h1 class="text-2xl">
-			{content}
+			{id}
 		</h1>
 	</Dialog.Trigger>
 	<Dialog.Portal>
@@ -34,7 +37,7 @@
 			</Dialog.Description>
 			<Dialog.Close
 				class="<!-- Consistent  focus rings --> absolute top-5
-				right-5 rounded-md focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 focus-visible:outline-hidden active:scale-[0.98]"
+				right-5 rounded-md focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-amber-50 focus-visible:outline-hidden active:scale-[0.98]"
 			>
 				<div>
 					<span class="sr-only">Close</span>

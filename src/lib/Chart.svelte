@@ -11,7 +11,6 @@
 	let link: any;
 	let node: any;
 	const card_size = 300;
-	let card_s_size = $state(card_size);
 	const line_distance = card_size * 1.5;
 	const line_size = 10;
 	const line_color = 'black';
@@ -42,19 +41,34 @@
 
 	onMount(() => {
 		// TODO: @Robel Is this useful?
-		d3
-			.select(chartContainer)
-			.attr('viewBox', `-${window.screen.height / 2} -${window.screen.width / 2} ${window.screen.height} ${window.screen.width}`);
-
+		d3.select(chartContainer).attr(
+			'viewBox',
+			`-${window.screen.height / 2} -${window.screen.width / 2} ${window.screen.height} ${window.screen.width}`
+		);
 
 		// Initialize simulation
 		simulation = d3
 			.forceSimulation()
-			.force('link', d3.forceLink().id((d) => d.id).distance(line_distance))
-			.force('charge', d3.forceManyBody().strength((_, i) => i == 0 ? -1000 : -.5))
+			.force(
+				'link',
+				d3
+					.forceLink()
+					.id((d) => d.id)
+					.distance(line_distance)
+			)
+			.force(
+				'charge',
+				d3.forceManyBody().strength((_, i) => (i == 0 ? -1000 : -0.5))
+			)
 			.force('collide', d3.forceCollide(line_distance))
-			.force('x', d3.forceX().strength((_, i) => i == 0 ? 1 : -.05))
-			.force('y', d3.forceY().strength((_, i) => i == 0 ? 1 : -.05))
+			.force(
+				'x',
+				d3.forceX().strength((_, i) => (i == 0 ? 1 : -0.05))
+			)
+			.force(
+				'y',
+				d3.forceY().strength((_, i) => (i == 0 ? 1 : -0.05))
+			)
 			.on('tick', () => {
 				// Update positions on each tick
 				link
@@ -90,15 +104,19 @@
 </script>
 
 <div bind:this={chartContainer}>
-	<svg class="canvas" width="100%" height="100%"
-			 preserveAspectRatio="xMidYMid meet" style="max-width: 100%; height: auto;">
+	<svg
+		class="canvas"
+		width="100%"
+		height="100%"
+		preserveAspectRatio="xMidYMid meet"
+		style="max-width: 100%; height: auto;"
+	>
 		<g>
-			<g class="links" stroke="#999" stroke-opacity="0.6" stroke-width={line_size}>
-			</g>
+			<g class="links" stroke="#999" stroke-opacity="0.6" stroke-width={line_size}> </g>
 			<g class="nodes">
-				{#each data.nodes as node(node.id)}
+				{#each data.nodes as node (node.id)}
 					<g class="node" id={node.id} width="100" height="100">
-						<Card nodeId={node.id} size={card_size} />
+						<Card nodeId={node.id} size={card_size} nodeDescription={node.description} />
 					</g>
 				{/each}
 			</g>
