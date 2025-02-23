@@ -150,7 +150,7 @@ const sampleSerializedGraph: SerializableGraph = {
 			relation: 'led_to',
 			source: 'radioactivity',
 			target: 'nuclear_medicine'
-		},
+		}
 		// --
 		// --
 		// --
@@ -170,13 +170,15 @@ const sampleSerializedGraph: SerializableGraph = {
 		// 	"source": "evolution",
 		// 	"target": "nuclear_medicine"
 		// }
-
 	]
 };
 
-const sampleGraph = Node.buildGraph(sampleSerializedGraph);
+// const sampleGraph = Node.buildGraph(sampleSerializedGraph);
 
-export const graph = $state<{ head: Node; nodeMap: Map<string, Node> }>({
-	head: sampleGraph.head,
-	nodeMap: new SvelteMap(sampleGraph.nodeMap)
-});
+export const graph = $state<{ head: Node | null; nodeMap: Map<string, Node> | null }>(
+	{ head: null, nodeMap: null }
+	// {
+	// head: sampleGraph.head,
+	// nodeMap: new SvelteMap(sampleGraph.nodeMap)
+	// }
+);

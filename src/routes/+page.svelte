@@ -1,36 +1,40 @@
-<section class="min-h-screen">
-	<div class="container mx-auto flex flex-col items-center px-4 py-20 md:flex-row">
-		<!-- Text Content -->
-		<div class="mb-10 md:mb-0 md:w-1/2">
-			<h1
-				class="mb-6 bg-gradient-to-r from-amber-800 to-amber-600 bg-clip-text text-5xl font-bold text-transparent"
-			>
-				Visualize Your Knowledge Connections
-			</h1>
-			<p class="mb-8 text-xl text-gray-600">
-				Note Graph transforms document relationships into interactive maps using AI-powered
-				analysis.
-			</p>
-			<div class="flex gap-4">
-				<button
-					onclick={() => (window.location.href = '/graph')}
-					class="rounded-lg bg-amber-600 px-8 py-3 text-white transition hover:bg-amber-700"
-				>
-					Get Started Free
-				</button>
-				<button
-					class="rounded-lg border-2 border-teal-600 px-8 py-3 text-teal-600 transition hover:bg-teal-50"
-				>
-					Watch Demo
-				</button>
-			</div>
-		</div>
+<script lang="ts">
+	import { graph } from '$lib/graphState.svelte';
+	let { form } = $props();
+	import { Node } from '$lib/graph_types';
+	import Chart from '$lib/Chart.svelte';
+	import PromptInput from '$lib/PromptInput.svelte';
+	import '$lib/PromptInput.svelte';
 
-		<!-- Interactive Preview -->
-		<div class="relative md:w-1/2" style="height: 500px">
-			<div
-				class="absolute inset-0 rounded-xl bg-gradient-to-r from-amber-300 to-amber-100 shadow-lg"
-			></div>
-		</div>
-	</div>
-</section>
+	if (form?.nodeRels) {
+		const { head, nodeMap } = Node.buildGraph(form.nodeRels);
+		graph.head = head;
+		graph.nodeMap = nodeMap;
+	}
+
+	let graphSerialized = $derived(graph.nodeMap?.get(graph.head?.id)?.extractGraph());
+</script>
+
+<!-- <main class="px-40 py-8"> -->
+<main>
+	<PromptInput />
+	<!-- <form method="POST" action="?/fetchData"> -->
+	<!-- 	<input -->
+	<!-- 		type="text" -->
+	<!-- 		id="prompt" -->
+	<!-- 		name="prompt" -->
+	<!-- 		placeholder="Prompt" -->
+	<!-- 		value={form?.prompt} -->
+	<!-- 		required -->
+	<!-- 	/> -->
+	<!-- 	<button -->
+	<!-- 		type="submit" -->
+	<!-- 		class="active:transform-translate me-2 mb-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" -->
+	<!-- 	> -->
+	<!-- 		Default -->
+	<!-- 	</button> -->
+	<!-- </form> -->
+	{#if graphSerialized}
+		<Chart dataprop={graphSerialized} />
+	{/if}
+</main>

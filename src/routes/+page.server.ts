@@ -37,7 +37,7 @@ export const actions = {
 		for (const { relationship, target } of relationships) {
 			head.createEdge(target, relationship);
 		}
-		
+
 		return {
 			nodeRels: head.extractGraph(),
 			prompt: input

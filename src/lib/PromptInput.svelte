@@ -55,12 +55,11 @@
               focus:ring-offset-sky-50 focus:outline-hidden
               sm:text-sm"
 							{placeholder}
-							name="name"
-							bind:value={inputValue}
-							onkeydown={handleKeyDown}
+							name="prompt"
 						></textarea>
 
 						<Dialog.Close
+							type="submit"
 							class="h-input rounded-input <!-- Matching  trigger style --> shadow-mini inline-flex
 					items-center justify-center bg-amber-100 px-[50px] 
 					text-[15px] font-semibold text-amber-900 hover:bg-amber-200 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 focus-visible:outline-hidden active:scale-[0.98]"
@@ -70,14 +69,14 @@
 					</form>
 				</div>
 			</div>
-			<Dialog.Close
-				class="<!-- Consistent  focus rings --> absolute top-5
-				right-5 rounded-md focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-amber-50 focus-visible:outline-hidden active:scale-[0.98]"
-			>
-				<div>
-					<span class="sr-only">Close</span>
-				</div>
-			</Dialog.Close>
+			<!-- <Dialog.Close -->
+			<!-- 	class="
+			<!-- 	right-5 rounded-md focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-amber-50 focus-visible:outline-hidden active:scale-[0.98]" -->
+			<!-- > -->
+			<!-- 	<div> -->
+			<!-- 		<span class="sr-only">Close</span> -->
+			<!-- 	</div> -->
+			<!-- </Dialog.Close> -->
 		</Dialog.Content>
 	</Dialog.Portal>
 </Dialog.Root>
