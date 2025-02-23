@@ -1,6 +1,20 @@
 <script lang="ts">
-	let { id, size } = $props();
+	import { graph } from '$lib/graphState.svelte';
+	import { SvelteMap } from 'svelte/reactivity';
+
+	let { nodeId, size } = $props();
+	// id ;
 	let count = $state(0);
+
+	const onClick = () => {
+		// console.log(graph.nodeMap);
+		console.log(graph);
+		const edge = graph.nodeMap.get(nodeId)!.createEdge(count.toString(), "is count of");
+		graph.nodeMap.set(edge.target.id, edge.target);
+		// console.log(graph.nodeMap);
+		graph.nodeMap = new SvelteMap(graph.nodeMap);
+		count++;
+	};
 </script>
 
 <foreignObject
@@ -11,9 +25,9 @@
 	><div class="card">
 		<button
 			class="rounded bg-blue-500 p-5 font-bold text-white hover:bg-blue-700"
-			onclick={() => count++}
+			onclick={onClick}
 		>
-			{id}: {count}
+			{nodeId}: {count}
 		</button>
 	</div></foreignObject
 >

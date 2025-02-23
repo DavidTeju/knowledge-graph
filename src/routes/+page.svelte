@@ -1,32 +1,23 @@
 <script lang="ts">
+	import { graph } from '$lib/graphState.svelte';
+
 	let { form } = $props();
+	import { Node } from '$lib/graph_types';
 
 	import Chart from '$lib/Chart.svelte';
 	import ChatInput from '$lib/ChatInput.svelte';
-	import type { GraphData } from '$lib/chart_types';
 
-	let data = $state<GraphData>({
-		nodes: [
-			{ id: 'A', content: 'I want to know a fun fact about cats' },
-			{ id: 'B', content: 'there are a lot of cats in rome' },
-			{ id: 'C', content: 'cesaer was a roman monarch' },
-			{ id: 'D', content: 'I want to know a fun fact about cats' },
-			{ id: 'E', content: 'there are a lot of cats in rome' },
-			{ id: 'F', content: 'cesaer was a roman monarch' }
-		],
-		edges: [
-			{ source: 'A', target: 'B', relation: 'cats' },
-			{ source: 'B', target: 'C', relation: 'rome' },
-			{ source: 'D', target: 'E', relation: 'cats' },
-			{ source: 'E', target: 'F', relation: 'rome' },
-			{ source: 'B', target: 'F', relation: 'rome' }
-
-		]
-	});
 
 	if (form?.nodeRels) {
-		data = form.nodeRels;
+		const {head, nodeMap} = Node.buildGraph(form.nodeRels);
+		graph.head = head;
+		graph.nodeMap = nodeMap;
 	}
+
+	let graphSerialized = $derived(graph.nodeMap.get(graph.head.id)!.extractGraph())
+	// $effect(() => {
+	// 	console.log(graph.nodeMap);
+	// })
 </script>
 
 <main>
@@ -40,18 +31,16 @@
 	</form>
 
 
-	<p>{form?.data}</p>
+	<p>{form?.nodeRels}</p>
 
-	<Chart dataprop={data} />
-	<ChatInput bind:nodes={data.nodes} />
-
+	<Chart dataprop={graphSerialized} />
+	<ChatInput bind:nodes={graphSerialized.nodes} />
 </main>
-
-<!-- <text x="5" y="30" fill="none" stroke="red" font-size="35">I love SVG!</text> -->
-
 
 <style>
     main {
-        padding: 2rem 10rem;
+        padding: 2rem 10%;
+				min-height: 100vh;
+				min-width: 100vw;
     }
 </style>
