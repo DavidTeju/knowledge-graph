@@ -51,7 +51,10 @@
 			.append('svg')
 			.attr('width', '100%')
 			.attr('height', '100%')
-			// .attr('viewBox', `-${1000 / 2} -${1000 / 2} ${1500 / 2} ${1500 / 2}`)
+			.attr(
+				'viewBox',
+				`-${window.screen.height / 2} -${window.screen.width / 2} ${window.screen.height} ${window.screen.width}`
+			)
 			.attr('preserveAspectRatio', 'xMidYMid meet') // Centers content
 			.attr('style', 'max-width: 100%; height: auto;');
 
