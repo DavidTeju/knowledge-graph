@@ -72,13 +72,30 @@
 			updateGraph(); // Initial graph render with labels on mount if data is available
 		}
 	});
+	let myZoom = d3.zoom().scaleExtent([1.8, 4]).on('zoom', handleZoom);
+
+	function dragstarted(event: any) {
+		if (!event.active) simulation.alphaTarget(0.3).restart();
+		event.subject.fx = event.subject.x;
+		event.subject.fy = event.subject.y;
+	}
+	function dragged(event: any) {
+		event.subject.fx = event.x;
+		event.subject.fy = event.y;
+	}
+
+	function dragended(event: any) {
+		if (!event.active) simulation.alphaTarget(0);
+		event.subject.fx = null;
+		event.subject.fy = null;
+	}
 
 	function handleZoom(event: any) {
 		d3.select('svg g').attr('transform', event.transform);
 	}
 
 	function initZoom() {
-		d3.select('svg').call(d3.zoom().on('zoom', handleZoom));
+		d3.select('svg').call(myZoom);
 	}
 
 	$effect(() => {
