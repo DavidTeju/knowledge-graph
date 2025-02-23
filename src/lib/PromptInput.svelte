@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { Dialog, Label, Separator } from 'bits-ui';
+	import { Dialog, Separator } from 'bits-ui';
 	let count = $state(0);
 
 	let inputValue = $state('');
+	let dialogOpen = $state(true);
 
 	let placeholder = 'Type a message...';
 
@@ -14,9 +15,17 @@
 			// nodes?.push({ id: count.toString(), content: inputValue });
 		}
 	}
+	function handleKeyDown(e: any) {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			handleSend();
+			dialogOpen = false;
+		}
+		// Shift+Enter will naturally create new line
+	}
 </script>
 
-<Dialog.Root open>
+<Dialog.Root bind:open={dialogOpen}>
 	<Dialog.Portal>
 		<Dialog.Overlay
 			class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/60"
@@ -26,7 +35,7 @@
 			data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] border bg-gray-50 p-5 outline-hidden sm:max-w-[490px] md:w-full"
 		>
 			<Dialog.Title
-				class="flex w-full items-center justify-center text-lg font-semibold tracking-tight"
+				class="flex w-full items-center justify-center text-lg font-semibold tracking-tight text-teal-700"
 			>
 				What do you want to learn?
 			</Dialog.Title>
@@ -37,19 +46,24 @@
 						<textarea
 							id="prompt"
 							class="textarea textarea-secondary
-              h-input rounded-card-sm <!-- White input background --> mx-5 inline-flex
-						w-full items-center border border-gray-300
-						bg-white px-4 text-base placeholder:text-gray-400/50 hover:border-gray-400 focus:ring-2 focus:ring-sky-300 focus:ring-offset-2 focus:ring-offset-sky-50 focus:outline-hidden sm:text-sm"
+              h-input rounded-card-sm
+              mx-5 inline-flex w-full items-center
+              border border-gray-300 bg-white p-4
+              text-base placeholder:text-gray-400/50
+              hover:border-gray-400 focus:ring-2
+              focus:ring-amber-300 focus:ring-offset-2
+              focus:ring-offset-sky-50 focus:outline-hidden
+              sm:text-sm"
 							{placeholder}
 							name="name"
-							onkeydown={(e) => e.key === 'Enter' && handleSend()}
 							bind:value={inputValue}
+							onkeydown={handleKeyDown}
 						></textarea>
 
 						<Dialog.Close
 							class="h-input rounded-input <!-- Matching  trigger style --> shadow-mini inline-flex
-					items-center justify-center bg-sky-100 px-[50px] 
-					text-[15px] font-semibold text-sky-900 hover:bg-sky-200 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 focus-visible:outline-hidden active:scale-[0.98]"
+					items-center justify-center bg-amber-100 px-[50px] 
+					text-[15px] font-semibold text-amber-900 hover:bg-amber-200 focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 focus-visible:outline-hidden active:scale-[0.98]"
 						>
 							Save
 						</Dialog.Close>
@@ -60,7 +74,7 @@
 			<!-- </div> -->
 			<Dialog.Close
 				class="<!-- Consistent  focus rings --> absolute top-5
-				right-5 rounded-md focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 focus-visible:outline-hidden active:scale-[0.98]"
+				right-5 rounded-md focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-amber-50 focus-visible:outline-hidden active:scale-[0.98]"
 			>
 				<div>
 					<span class="sr-only">Close</span>

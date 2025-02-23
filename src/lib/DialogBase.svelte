@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { Dialog, Label, Separator } from 'bits-ui';
+	import { Dialog, Separator } from 'bits-ui';
 	let { content } = $props();
 </script>
 
 <Dialog.Root>
 	<Dialog.Trigger
 		class="rounded-input  shadow-mini inline-flex
-		h-72 items-center justify-center bg-sky-100 px-[21px]
-		text-[15px] font-semibold  text-sky-900 transition-colors hover:bg-sky-200 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 focus-visible:outline-hidden active:scale-[0.98]"
+		h-full w-full items-center justify-center bg-amber-200
+		text-[15px] font-semibold  text-teal-700 transition-colors hover:bg-amber-200 focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 focus-visible:outline-hidden active:scale-[0.98]"
 	>
 		<h1 class="text-2xl">
 			{content}
@@ -18,11 +18,11 @@
 			class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/60"
 		/>
 		<Dialog.Content
-			class="rounded-card-lg shadow-popover <!--  Soft gray background --> data-[state=open]:animate-in
+			class="rounded-card-lg shadow-popover data-[state=open]:animate-in
 			data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] border bg-gray-50 p-5 outline-hidden sm:max-w-[490px] md:w-full"
 		>
 			<Dialog.Title
-				class="flex w-full items-center justify-center text-lg font-semibold tracking-tight"
+				class=" flex w-full items-center justify-center text-lg font-semibold tracking-tight text-teal-700"
 			>
 				READ Content
 			</Dialog.Title>

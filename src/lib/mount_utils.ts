@@ -1,7 +1,7 @@
 import { mount, type Component } from 'svelte';
 
 // Updated version with optional props
-export default function mountToNode<T extends Component>(
+export function mountToNode<T extends Component>(
 	component: T,
 	Id: string,
 	props?: Record<string, unknown> // Optional props parameter
@@ -16,4 +16,8 @@ export default function mountToNode<T extends Component>(
 		target: target,
 		props: props // Handle undefined case with empty object
 	});
+}
+
+export function mountToEdge(nodelink: any) {
+	console.log(nodelink);
 }

@@ -2,7 +2,7 @@
 	import * as d3 from 'd3';
 	import { onMount } from 'svelte';
 	import Card from '$lib/Card.svelte';
-	import mountToNode from '$lib/node_builder';
+	import { mountToNode, mountToEdge } from '$lib/mount_utils';
 
 	let { dataprop } = $props();
 	let data = $derived(JSON.parse(JSON.stringify(dataprop)));
@@ -10,10 +10,11 @@
 	let simulation: any = $state();
 	let link: any;
 	let node: any;
+	let nodelink: any;
 	const card_size = 500;
 	const line_distance = card_size * 2;
 	const line_size = 100;
-	const line_color = 'black';
+	const line_color = 'red';
 
 	function updateGraph() {
 		simulation.nodes(data.nodes);
@@ -28,7 +29,10 @@
 			.data(data.edges)
 			.join('line')
 			.attr('stroke-width', Math.sqrt(line_size))
-			.style('stroke', line_color);
+			.style('stroke', line_color)
+			.attr('id', (line: any) => `${line.source.id}-${line.target.id}`)
+			.each((line: any) => mountToEdge(line));
+
 		// Update node elements (grouping circle and label)
 		node = d3
 			.select(chartContainer)
@@ -42,6 +46,19 @@
 			.attr('height', 100)
 			.attr('id', (d: any) => d.id)
 			.each((d: any) => mountToNode(Card, d.id, { id: d.id, size: card_size, content: d.content }));
+
+		nodelink = d3
+			.select(chartContainer)
+			.select('svg')
+			.select('g.nodelinks')
+			.selectAll('.nodelinks')
+			.data(data.edges)
+			.join('g')
+			.attr('width', 100)
+			.attr('height', 100)
+			// .attr('transform', (nodelink: any) => `translate(${nodelink.x},${nodelink.y})`)
+			.text('hello')
+			.each((nodelink: any) => mountToEdge(nodelink));
 
 		// Restart simulation
 		simulation.alpha(1).restart();
@@ -58,6 +75,7 @@
 				'viewBox',
 				`-${window.screen.height / 2} -${window.screen.width / 2} ${window.screen.height} ${window.screen.width}`
 			)
+			.attr('id', 'graph')
 			.attr('preserveAspectRatio', 'xMidYMid meet') // Centers content
 			.attr('style', 'max-width: 100%; height: auto;');
 
@@ -65,6 +83,7 @@
 		let vp = svg.append('g');
 		vp.append('g').attr('class', 'links').attr('stroke', '#999').attr('stroke-opacity', 0.6);
 		vp.append('g').attr('class', 'nodes').attr('stroke', '#fff').attr('stroke-width', 1.5);
+		vp.append('g').attr('class', 'nodelinks').attr('stroke', '#fff').attr('stroke-width', 1.5);
 
 		// Initialize simulation
 		simulation = d3
@@ -99,22 +118,6 @@
 	});
 	let myZoom = d3.zoom().scaleExtent([0.5, 4]).on('zoom', handleZoom);
 
-	function dragstarted(event: any) {
-		if (!event.active) simulation.alphaTarget(0.3).restart();
-		event.subject.fx = event.subject.x;
-		event.subject.fy = event.subject.y;
-	}
-	function dragged(event: any) {
-		event.subject.fx = event.x;
-		event.subject.fy = event.y;
-	}
-
-	function dragended(event: any) {
-		if (!event.active) simulation.alphaTarget(0);
-		event.subject.fx = null;
-		event.subject.fy = null;
-	}
-
 	function handleZoom(event: any) {
 		d3.select('svg g').attr('transform', event.transform);
 	}
@@ -138,6 +141,6 @@
 		justify-content: center;
 		position: fixed;
 		width: 100%;
-		height: 90vh; /* Viewport height */
+		height: 100vh; /* Viewport height */
 	}
 </style>

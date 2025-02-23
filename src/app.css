@@ -6,6 +6,32 @@
 
 @custom-variant dark (&:is(.dark *));
 
+#prompt::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+#prompt::-webkit-scrollbar-thumb {
+	background-color: #0d9488; /* Teal-600 */
+	border-radius: 3px;
+	opacity: 0.3;
+	transition: opacity 0.2s;
+}
+
+#prompt::-webkit-scrollbar-thumb:hover {
+	opacity: 0.4;
+}
+
+#prompt::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* Firefox fallback */
+#prompt {
+	scrollbar-color: #0d9488 transparent; /* Teal-600 thumb with transparent track */
+	scrollbar-width: thin;
+}
+
 @font-face {
 	font-family: 'Cal Sans';
 	font-style: normal;

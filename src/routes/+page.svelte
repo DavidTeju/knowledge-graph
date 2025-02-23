@@ -35,5 +35,5 @@
 <main>
 	<PromptInput />
 	<Chart dataprop={data} />
-	<ChatInput bind:nodes={data.nodes} />
+	<!-- <ChatInput bind:nodes={data.nodes} /> -->
 </main>
