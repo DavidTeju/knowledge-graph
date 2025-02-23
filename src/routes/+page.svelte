@@ -14,7 +14,7 @@
 			{ id: 'E', content: 'there are a lot of cats in rome' },
 			{ id: 'F', content: 'cesaer was a roman monarch' }
 		],
-		links: [
+		edges: [
 			{ source: 'A', target: 'B', relation: 'cats' },
 			{ source: 'B', target: 'C', relation: 'rome' },
 			{ source: 'D', target: 'E', relation: 'cats' },
@@ -23,6 +23,10 @@
 
 		]
 	});
+
+	if (form?.nodeRels) {
+		data = form.nodeRels;
+	}
 </script>
 
 <main>
@@ -50,5 +54,4 @@
     main {
         padding: 2rem 10rem;
     }
-
 </style>

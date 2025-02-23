@@ -9,12 +9,12 @@ class Edge {
 	constructor(
 		public source: Node,
 		public target: Node,
-		public name: string
+		public relation: string
 	) {}
 }
 
 class Node {
-	public name: string;
+	public id: string;
 	public identifiers: string[];
 	public description: string;
 	public data: object;
@@ -33,7 +33,7 @@ class Node {
 		data?: object;
 		edges?: Edge[];
 	}) {
-		this.name = name;
+		this.id = name;
 		this.identifiers = identifiers;
 		this.description = description;
 		this.data = data;
@@ -54,10 +54,10 @@ class Node {
 				identifiers: this.identifiers,
 				description: this.description,
 				data: this.data,
-				edges: this.edges.map((edge) => ({
-					source: edge.source.identifiers,
-					target: edge.target.identifiers,
-					name: edge.name
+				edges: this.edges.map(({ source, target, relation }) => ({
+					source: source.identifiers,
+					target: target.identifiers,
+					relation
 				}))
 			},
 			null,
@@ -85,7 +85,7 @@ class Node {
 			const { edges: _, ...nodeWithoutEdges } = node;
 			graph.nodes.push(nodeWithoutEdges);
 			for (const edge of node.edges) {
-				graph.edges.push({ name: edge.name, source: edge.source.name, target: edge.target.name });
+				graph.edges.push({ name: edge.relation, source: edge.source.id, target: edge.target.id });
 				queue.push(edge.target);
 			}
 		}
@@ -132,6 +132,7 @@ export const actions = {
 
 		return {
 			data: JSON.stringify({ promptTitle, description, asArray, relationships }, null, 4),
+			nodeRels: head.extractGraph(),
 			input
 		};
 	}

@@ -1,12 +1,12 @@
 <script lang="ts">
-	let { id } = $props();
+	let { id, size } = $props();
 	let count = $state(0);
 </script>
 
 <foreignObject
-	width="100"
-	height="100"
-	transform="translate(-50,-50)"
+	width={size}
+	height={size}
+	transform="translate(-{size/2},-{size/2})"
 	class="place-content-between rounded-2xl bg-teal-500 p-2"
 	><div class="card">
 		<button

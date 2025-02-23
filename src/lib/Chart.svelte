@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import Card from '$lib/Card.svelte';
 	import mountToNode from '$lib/node_builder';
+	import { style } from 'd3';
 
 	let { dataprop } = $props();
 	let data = $derived(JSON.parse(JSON.stringify(dataprop)));
@@ -10,12 +11,14 @@
 	let simulation: any = $state();
 	let link: any;
 	let node: any;
-	const line_distance = 200;
-	const line_size = 4;
+	const card_size = 500;
+	const line_distance = card_size * 2;
+	const line_size = 100;
+	const line_color = 'black';
 
 	function updateGraph() {
 		simulation.nodes(data.nodes);
-		simulation.force('link').links(data.links);
+		simulation.force('link').links(data.edges);
 
 		// Update link elements
 		link = d3
@@ -23,9 +26,10 @@
 			.select('svg')
 			.select('g.links')
 			.selectAll('line')
-			.data(data.links)
+			.data(data.edges)
 			.join('line')
-			.attr('stroke-width', Math.sqrt(line_size));
+			.attr('stroke-width', Math.sqrt(line_size))
+			.style('stroke', line_color);
 		// Update node elements (grouping circle and label)
 		node = d3
 			.select(chartContainer)
@@ -38,7 +42,7 @@
 			.attr('width', 100)
 			.attr('height', 100)
 			.attr('id', (d: any) => d.id)
-			.each((d: any) => mountToNode(Card, d.id, { id: d.id }));
+			.each((d: any) => mountToNode(Card, d.id, { id: d.id, size: card_size }));
 
 		// Restart simulation
 		simulation.alpha(1).restart();
@@ -65,6 +69,7 @@
 			.forceSimulation()
 			.force('link', d3.forceLink().id((d) => d.id).distance(line_distance))
 			.force('charge', d3.forceManyBody().strength(-10_000))
+			.force('collide', d3.forceCollide(card_size))
 			.force('x', d3.forceX().strength(0.3))
 			.force('y', d3.forceY().strength(0.3))
 			.on('tick', () => {
@@ -88,6 +93,7 @@
 	function handleZoom(event: any) {
 		d3.select('svg g').attr('transform', event.transform);
 	}
+
 	function initZoom() {
 		d3.select('svg').call(d3.zoom().on('zoom', handleZoom));
 	}
@@ -102,11 +108,11 @@
 <div bind:this={chartContainer}></div>
 
 <style>
-	div {
-		display: flex;
-		justify-content: center;
-		position: fixed;
-		width: 100%;
-		height: 90vh; /* Viewport height */
-	}
+    div {
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        width: 100%;
+        height: 90vh; /* Viewport height */
+    }
 </style>
