@@ -2,22 +2,65 @@
 	import { graph } from '$lib/graphState.svelte';
 	import { SvelteMap } from 'svelte/reactivity';
 	import ContentView from './ContentView.svelte';
+	import { enhance } from '$app/forms';
+	import { Node } from '$lib/graph_types';
 	import { Dialog, Separator, Tooltip } from 'bits-ui';
 	import MagicWand from 'phosphor-svelte/lib/MagicWand';
+	import type { ActionResult } from '@sveltejs/kit';
+	import type { ResearchContext } from '$lib/agents';
 
-	let { nodeId, size, nodeDescription } = $props();
-	// id ;
-	let count = $state(0);
+	let { nodeId, size, nodeDescription, fixNodeInPlace } = $props();
 
-	console.log(nodeDescription);
-	const onClick = () => {
-		// console.log(graph.nodeMap);
-		console.log(graph);
-		const edge = graph.nodeMap.get(nodeId)!.createEdge(count.toString(), 'is count of');
-		graph.nodeMap.set(edge.target.id, edge.target);
-		// console.log(graph.nodeMap);
-		graph.nodeMap = new SvelteMap(graph.nodeMap);
-		count++;
+	const gatherContext = (head: Node): ResearchContext => {
+		const adjacencies = head.edges.values().map(e => e.toString()).toArray();
+		return {
+			mainTopic: head.id,
+			identifiers: head.identifiers,
+			description: head.description,
+			adjacencies
+		};
+	};
+
+	const onClick = async ({ data }: { data: FormData }) => {
+		if (!graph.nodeMap || graph.nodeMap === null) {
+			return;
+		}
+
+		fixNodeInPlace(nodeId);
+		const nodeMap = graph.nodeMap;
+
+		const currentNode = graph.nodeMap.get(nodeId);
+		const context = gatherContext(currentNode!);
+
+
+		const response = await fetch('/', {
+			method: 'POST',
+			body: JSON.stringify(context),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		const result = await response.json();
+
+		if (response.ok) {
+			console.log(result);
+
+			const relationships = result['relationships'];
+			const identifiers = result['identifiers'];
+
+
+			currentNode!.identifiers.push(...identifiers);
+			currentNode!.description = result['description'];
+			for (const rel of relationships) {
+				const { target, relationship } = rel;
+				const edge = currentNode!.createEdge(target, relationship);
+				nodeMap.set(edge.target.id, edge.target);
+			}
+			graph.nodeMap = new SvelteMap(nodeMap);
+		}
+
+
 	};
 </script>
 

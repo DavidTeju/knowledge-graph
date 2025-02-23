@@ -1,9 +1,21 @@
-class Edge {
+export class Edge {
 	constructor(
 		public source: Node,
 		public target: Node,
 		public relation: string
 	) {}
+
+	toString() {
+		return JSON.stringify(
+			{
+				source: this.source.identifiers,
+				target: this.target.identifiers,
+				relation: this.relation
+			},
+			null,
+			4
+		);
+	}
 }
 
 export class Node {

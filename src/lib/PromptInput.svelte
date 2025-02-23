@@ -22,7 +22,7 @@
 			<Separator.Root class="-mx-5 mt-5 mb-6 block h-px bg-gray-200" />
 			<div class="flex flex-col items-start gap-1 pt-7 pb-11">
 				<div class="relative w-full">
-					<form method="POST" action="?/fetchData" class="flex flex-row">
+					<form method="POST" action="?/initializeResearch" class="flex flex-row">
 						<textarea
 							id="prompt"
 							class="textarea textarea-secondary

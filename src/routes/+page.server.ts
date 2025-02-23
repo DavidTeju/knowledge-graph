@@ -1,26 +1,25 @@
 import type { Actions } from './$types';
 import { ChatOpenAI } from '@langchain/openai';
-import { OPENAI_API_KEY } from '$env/static/private';
-import { relationshipsMessage, synonymMessage, titleAndDescriptionMessage } from '$lib/agents';
+import {
+	model,
+	relationshipsMessage, type ResearchContext,
+	synonymMessage,
+	titleAndDescriptionMessage
+} from '$lib/agents';
 import { Node } from '$lib/graph_types';
 
-const model = new ChatOpenAI({ model: 'gpt-4', apiKey: OPENAI_API_KEY });
 
 export const actions = {
-	fetchData: async ({ request }) => {
+	initializeResearch: async ({ request }) => {
 		const formData = await request.formData();
 
 		const input = (formData.get('prompt') as string).trim();
 		// look at type
 
-		let promptTitle = input;
-		let description = 'Change me!';
-		if (input.length > 100 || input.split(' ').length > 20) {
-			const { content } = await model.invoke(titleAndDescriptionMessage(input));
-			const parsed = JSON.parse(content);
-			promptTitle = parsed.title;
-			description = parsed.description;
-		}
+		const { content: titleDescriptionContent } = await model.invoke(titleAndDescriptionMessage(input));
+		const titleDescription = JSON.parse(titleDescriptionContent);
+		const promptTitle = titleDescription.title;
+		const description = titleDescription.description;
 
 		const { content: content1 } = await model.invoke(synonymMessage(promptTitle));
 		const identifiers: Array<string> = JSON.parse(content1)['keywords'];
@@ -42,5 +41,5 @@ export const actions = {
 			nodeRels: head.extractGraph(),
 			prompt: input
 		};
-	}
+	},
 } satisfies Actions;
