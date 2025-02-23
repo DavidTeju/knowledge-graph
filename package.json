@@ -26,7 +26,7 @@
 		"drizzle-kit": "^0.30.2",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
-		"eslint-plugin-svelte": "^2.46.1",
+		"eslint-plugin-svelte": "^2.45.1",
 		"globals": "^15.14.0",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
@@ -39,7 +39,10 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@langchain/core": "^0.3.40",
+		"@langchain/openai": "^0.4.4",
 		"@neondatabase/serverless": "^0.10.4",
-		"drizzle-orm": "^0.38.4"
+		"drizzle-orm": "^0.38.4",
+		"langchain": "^0.3.19"
 	}
 }
