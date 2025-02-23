@@ -13,10 +13,10 @@
 	let simulation: any = $state();
 	let link: any;
 	let node: any;
-	const card_size = 300;
+	const card_size = 600;
 	const line_distance = card_size * 1.2;
 	const line_size = 10;
-	const line_color = 'black';
+	const line_color = 'var(--color-pink-400)';
 
 	function fixNodeInPlace(nodeId: string) {
 		console.log('You called me');
@@ -90,7 +90,7 @@
 			)
 			.force(
 				'charge',
-				d3.forceManyBody().strength((_, i) => (i == 0 ? -1000 : -0.5))
+				d3.forceManyBody().strength((_, i) => (i == 0 ? -100 : -0.2))
 			)
 			.force('collide', d3.forceCollide(line_distance))
 			.force(

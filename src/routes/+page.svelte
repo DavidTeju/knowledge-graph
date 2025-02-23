@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { graph } from '$lib/graphState.svelte';
-
 	let { form } = $props();
 	import { Node } from '$lib/graph_types';
 	import Chart from '$lib/Chart.svelte';

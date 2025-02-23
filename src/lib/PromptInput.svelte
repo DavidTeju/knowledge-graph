@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { Dialog, Separator } from 'bits-ui';
+	import { isLoading } from '$lib/graphState.svelte';
+	import type { ActionResult } from '@sveltejs/kit';
+	import { enhance } from '$app/forms';
+
 	let dialogOpen = $state(true);
 
 	let placeholder = 'Type a message...';
+
+
 </script>
 
 <Dialog.Root bind:open={dialogOpen}>
@@ -11,8 +17,12 @@
 			class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/60"
 		/>
 		<Dialog.Content
-			class="rounded-card-lg shadow-popover data-[state=open]:animate-in
-			data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] border bg-gray-50 p-5 outline-hidden sm:max-w-[490px] md:w-full"
+			class="rounded-card-lg 
+      shadow-popover data-[state=open]:animate-in
+			data-[state=closed]:animate-out 
+
+      data-[state=closed]:fade-out-0 
+      data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] border bg-gray-50 p-5 outline-hidden sm:max-w-[490px] md:w-full"
 		>
 			<Dialog.Title
 				class="flex w-full items-center justify-center text-lg font-semibold tracking-tight text-teal-700"

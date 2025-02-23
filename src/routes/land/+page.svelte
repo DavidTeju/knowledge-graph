@@ -13,7 +13,7 @@
 			</p>
 			<div class="flex gap-4">
 				<button
-					onclick={() => (window.location.href = '/graph')}
+					onclick={() => (window.location.href = '/')}
 					class="rounded-lg bg-amber-600 px-8 py-3 text-white transition hover:bg-amber-700"
 				>
 					Get Started Free
