@@ -39,7 +39,8 @@ You can preview the production build with `npm run preview`.
 
 ## Robel's TODOs
 
-- [ ] infinite "canvas"
-- [ ] fixed point nodes
-- [ ] appending nodes
-- [ ] fix zooming
+- [x] infinite "canvas"
+- [x] fixed point nodes
+  - [ ] center node
+- [x] appending nodes
+- [x] fix zooming

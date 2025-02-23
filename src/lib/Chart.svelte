@@ -38,8 +38,8 @@
 			.attr('width', 100)
 			.attr('height', 100)
 			.attr('id', (d: any) => d.id)
-			.each((d: any) => mountToNode(Card, d.id, { id: d.id }))
-			.call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
+			.each((d: any) => mountToNode(Card, d.id, { id: d.id }));
+		// .call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
 		// Restart simulation
 		simulation.alpha(1).restart();
 	}
@@ -51,7 +51,7 @@
 			.append('svg')
 			.attr('width', '100%')
 			.attr('height', '100%')
-			.attr('viewBox', `-${1000 / 2} -${1000 / 2} ${1500 / 2} ${1500 / 2}`)
+			// .attr('viewBox', `-${1000 / 2} -${1000 / 2} ${1500 / 2} ${1500 / 2}`)
 			.attr('preserveAspectRatio', 'xMidYMid meet') // Centers content
 			.attr('style', 'max-width: 100%; height: auto;');
 
@@ -97,23 +97,6 @@
 	}
 	function initZoom() {
 		d3.select('svg').call(d3.zoom().on('zoom', handleZoom));
-	}
-
-	// Drag event handlers
-	function dragstarted(event: any) {
-		if (!event.active) simulation.alphaTarget(0.3).restart();
-		event.subject.fx = event.subject.x;
-		event.subject.fy = event.subject.y;
-	}
-	function dragged(event: any) {
-		event.subject.fx = event.x;
-		event.subject.fy = event.y;
-	}
-
-	function dragended(event: any) {
-		if (!event.active) simulation.alphaTarget(0);
-		event.subject.fx = null;
-		event.subject.fy = null;
 	}
 
 	$effect(() => {
