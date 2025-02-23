@@ -10,10 +10,10 @@
 	let simulation: any = $state();
 	let link: any;
 	let node: any;
-	const card_size = 300;
+	const card_size = 600;
 	const line_distance = card_size * 1.5;
 	const line_size = 10;
-	const line_color = 'black';
+	const line_color = 'var(--color-pink-400)';
 
 	function updateGraph() {
 		simulation.nodes(data.nodes);
@@ -58,7 +58,7 @@
 			)
 			.force(
 				'charge',
-				d3.forceManyBody().strength((_, i) => (i == 0 ? -1000 : -0.5))
+				d3.forceManyBody().strength((_, i) => (i == 0 ? -100 : -0.2))
 			)
 			.force('collide', d3.forceCollide(line_distance))
 			.force(
@@ -86,7 +86,7 @@
 			updateGraph(); // Initial graph render with labels on mount if data is available
 		}
 	});
-	let myZoom = d3.zoom().scaleExtent([0.5, 4]).on('zoom', handleZoom);
+	let myZoom = d3.zoom().scaleExtent([0.3, 4]).on('zoom', handleZoom);
 
 	function handleZoom(event: any) {
 		d3.select('svg g').attr('transform', event.transform);
@@ -116,7 +116,7 @@
 			<g class="nodes">
 				{#each data.nodes as node (node.id)}
 					<g class="node" id={node.id} width="100" height="100">
-						<Card nodeId={node.id} size={card_size} nodeDescription={node.description} />
+						<Card {node} size={card_size} />
 					</g>
 				{/each}
 			</g>

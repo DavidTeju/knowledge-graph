@@ -173,12 +173,12 @@ const sampleSerializedGraph: SerializableGraph = {
 	]
 };
 
-// const sampleGraph = Node.buildGraph(sampleSerializedGraph);
+const sampleGraph = Node.buildGraph(sampleSerializedGraph);
 
 export const graph = $state<{ head: Node | null; nodeMap: Map<string, Node> | null }>(
-	{ head: null, nodeMap: null }
-	// {
-	// head: sampleGraph.head,
-	// nodeMap: new SvelteMap(sampleGraph.nodeMap)
-	// }
+	// { head: null, nodeMap: null }
+	{
+		head: sampleGraph.head,
+		nodeMap: new SvelteMap(sampleGraph.nodeMap)
+	}
 );
