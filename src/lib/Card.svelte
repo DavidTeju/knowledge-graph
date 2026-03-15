@@ -1,18 +1,19 @@
 <script lang="ts">
-	import { graph } from '$lib/graphState.svelte';
-	import { SvelteMap } from 'svelte/reactivity';
-	import ContentView from './ContentView.svelte';
-	import { enhance } from '$app/forms';
-	import { Node } from '$lib/graph_types';
-	import { Dialog, Separator, Tooltip } from 'bits-ui';
+	import { Tooltip } from 'bits-ui';
 	import MagicWand from 'phosphor-svelte/lib/MagicWand';
-	import type { ActionResult } from '@sveltejs/kit';
+	import { SvelteMap } from 'svelte/reactivity';
 	import type { ResearchContext } from '$lib/agents';
+	import type { Node } from '$lib/graph_types';
+	import { graph } from '$lib/graphState.svelte';
+	import ContentView from './ContentView.svelte';
 
 	let { nodeId, size, nodeDescription, fixNodeInPlace } = $props();
 
 	const gatherContext = (head: Node): ResearchContext => {
-		const adjacencies = head.edges.values().map(e => e.toString()).toArray();
+		const adjacencies = head.edges
+			.values()
+			.map((e) => e.toString())
+			.toArray();
 		return {
 			mainTopic: head.id,
 			identifiers: head.identifiers,
@@ -32,7 +33,6 @@
 		const currentNode = graph.nodeMap.get(nodeId);
 		const context = gatherContext(currentNode!);
 
-
 		const response = await fetch('/', {
 			method: 'POST',
 			body: JSON.stringify(context),
@@ -49,7 +49,6 @@
 			const relationships = result['relationships'];
 			const identifiers = result['identifiers'];
 
-
 			currentNode!.identifiers.push(...identifiers);
 			currentNode!.description = result['description'];
 			for (const rel of relationships) {
@@ -59,15 +58,15 @@
 			}
 			graph.nodeMap = new SvelteMap(nodeMap);
 		}
-
-
 	};
 </script>
 
 <foreignObject
 	width={size}
-	height={graph.nodeMap.get(nodeId).description ? size: (size / 3)}
-	transform="translate(-{size / 2},-{graph.nodeMap?.get(nodeId)?.description ? (size/2): (size / 3 / 2)})"
+	height={graph.nodeMap.get(nodeId).description ? size : size / 3}
+	transform="translate(-{size / 2},-{graph.nodeMap?.get(nodeId)?.description
+		? size / 2
+		: size / 3 / 2})"
 	class="grid"
 >
 	<div

@@ -1,14 +1,9 @@
 <script lang="ts">
 	import { Dialog, Separator } from 'bits-ui';
-	import { isLoading } from '$lib/graphState.svelte';
-	import type { ActionResult } from '@sveltejs/kit';
-	import { enhance } from '$app/forms';
 
 	let dialogOpen = $state(true);
 
 	let placeholder = 'Type a message...';
-
-
 </script>
 
 <Dialog.Root bind:open={dialogOpen}>

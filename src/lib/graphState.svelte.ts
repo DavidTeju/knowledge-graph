@@ -1,6 +1,5 @@
 import type { SerializableGraph } from '$lib/graph_types';
 import { Node } from '$lib/graph_types';
-import { SvelteMap } from 'svelte/reactivity';
 
 const sampleSerializedGraph: SerializableGraph = {
 	nodes: [

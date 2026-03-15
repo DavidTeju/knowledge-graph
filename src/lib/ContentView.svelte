@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Dialog, Separator } from 'bits-ui';
 	import { graph } from '$lib/graphState.svelte';
-	let { nodeId }: {nodeId: string} = $props();
+	let { nodeId }: { nodeId: string } = $props();
 
 	const node = graph.nodeMap!.get(nodeId)!;
 	let data_entries = Object.entries(node.data);

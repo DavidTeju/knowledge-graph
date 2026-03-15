@@ -1,13 +1,11 @@
-import type { Actions } from './$types';
-import { ChatOpenAI } from '@langchain/openai';
 import {
 	model,
-	relationshipsMessage, type ResearchContext,
+	relationshipsMessage,
 	synonymMessage,
 	titleAndDescriptionMessage
 } from '$lib/agents';
 import { Node } from '$lib/graph_types';
-
+import type { Actions } from './$types';
 
 export const actions = {
 	initializeResearch: async ({ request }) => {
@@ -16,7 +14,9 @@ export const actions = {
 		const input = (formData.get('prompt') as string).trim();
 		// look at type
 
-		const { content: titleDescriptionContent } = await model.invoke(titleAndDescriptionMessage(input));
+		const { content: titleDescriptionContent } = await model.invoke(
+			titleAndDescriptionMessage(input)
+		);
 		const titleDescription = JSON.parse(titleDescriptionContent);
 		const promptTitle = titleDescription.title;
 		const description = titleDescription.description;
@@ -41,5 +41,5 @@ export const actions = {
 			nodeRels: head.extractGraph(),
 			prompt: input
 		};
-	},
+	}
 } satisfies Actions;

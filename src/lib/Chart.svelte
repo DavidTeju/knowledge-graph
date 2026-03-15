@@ -1,9 +1,8 @@
 <script lang="ts">
 	import * as d3 from 'd3';
-	import { onMount } from 'svelte';
+	import { onMount, SvelteSet } from 'svelte';
 	import Card from '$lib/Card.svelte';
 	import type { SerializableGraph } from '$lib/graph_types';
-	import { SvelteSet } from 'svelte/reactivity';
 
 	let { dataprop }: { dataprop: SerializableGraph } = $props();
 	let data: SerializableGraph = $derived(JSON.parse(JSON.stringify(dataprop)));
@@ -38,8 +37,7 @@
 				n.fy = null;
 			}
 		});
-
-	};
+	}
 
 	function updateGraph() {
 		simulation.nodes(data.nodes);
@@ -95,11 +93,11 @@
 			.force('collide', d3.forceCollide(line_distance))
 			.force(
 				'x',
-				d3.forceX().strength((_, i) => (i == 0 ? 1 : .2))
+				d3.forceX().strength((_, i) => (i == 0 ? 1 : 0.2))
 			)
 			.force(
 				'y',
-				d3.forceY().strength((_, i) => (i == 0 ? 1 : .2))
+				d3.forceY().strength((_, i) => (i == 0 ? 1 : 0.2))
 			)
 			.on('tick', () => {
 				// Update positions on each tick
@@ -148,7 +146,12 @@
 			<g class="nodes">
 				{#each data.nodes as node (node.id)}
 					<g class="node" id={node.id} width="100" height="100">
-						<Card {fixNodeInPlace} nodeId={node.id} size={card_size} nodeDescription={node.description} />
+						<Card
+							{fixNodeInPlace}
+							nodeId={node.id}
+							size={card_size}
+							nodeDescription={node.description}
+						/>
 					</g>
 				{/each}
 			</g>
@@ -157,11 +160,11 @@
 </div>
 
 <style>
-    div {
-        display: flex;
-        justify-content: center;
-        position: fixed;
-        width: 100%;
-        height: 100vh; /* Viewport height */
-    }
+	div {
+		display: flex;
+		justify-content: center;
+		position: fixed;
+		width: 100%;
+		height: 100vh; /* Viewport height */
+	}
 </style>

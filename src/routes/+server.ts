@@ -1,3 +1,4 @@
+import { json } from '@sveltejs/kit';
 import {
 	model,
 	relationshipsMessage,
@@ -5,7 +6,6 @@ import {
 	synonymMessage,
 	titleAndDescriptionMessage
 } from '$lib/agents';
-import { json } from '@sveltejs/kit';
 
 export async function POST({ request }) {
 	const context: ResearchContext = await request.json();

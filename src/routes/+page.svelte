@@ -4,7 +4,6 @@
 	import { Node } from '$lib/graph_types';
 	import Chart from '$lib/Chart.svelte';
 	import PromptInput from '$lib/PromptInput.svelte';
-	import '$lib/PromptInput.svelte';
 
 	if (form?.nodeRels) {
 		const { head, nodeMap } = Node.buildGraph(form.nodeRels);
@@ -18,7 +17,7 @@
 <main>
 	{#if graphSerialized}
 		<Chart dataprop={graphSerialized} />
-	{:else }
+	{:else}
 		<PromptInput />
 	{/if}
 </main>
